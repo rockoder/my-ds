@@ -178,7 +178,7 @@ void BinarySearchTree<T>::deserialize(std::istream& preorderStream)
 	{
 		std::stack<std::shared_ptr<Node>> s;
 
-		std::shared_ptr<Node> root = std::shared_ptr<Node>(new Node(preorderVector[0]));
+		std::shared_ptr<Node> root = std::shared_ptr<Node>(std::make_shared<Node>(preorderVector[0]));
 
 		s.push(root);
 		_root = root;
@@ -195,12 +195,12 @@ void BinarySearchTree<T>::deserialize(std::istream& preorderStream)
 
 			if (temp)
 			{
-				temp->right = std::shared_ptr<Node>(new Node(preorderVector[i]));
+				temp->right = std::shared_ptr<Node>(std::make_shared<Node>(preorderVector[i]));
 				s.push(temp->right);
 			}
 			else
 			{
-				s.top()->left = std::shared_ptr<Node>(new Node(preorderVector[i]));
+				s.top()->left = std::shared_ptr<Node>(std::make_shared<Node>(preorderVector[i]));
 				s.push(s.top()->left);
 			}
 		}
@@ -242,7 +242,7 @@ void BinarySearchTree<T>::insert(std::shared_ptr<Node>& root, T data)
 {
 	if (!root)
 	{
-		root = std::shared_ptr<Node>(new Node(data));
+		root = std::shared_ptr<Node>(std::make_shared<Node>(data));
 	}
 	else if (data < root->data)
 	{
