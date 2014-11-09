@@ -41,7 +41,7 @@ public:
 	size_t width() const;
 
 private:
-	void insert(std::shared_ptr<Node>& root, T data);
+	void insert(std::shared_ptr<Node>& root, const T& data);
 
 	void inorder(std::shared_ptr<Node> root, std::vector<T>& v) const;
 	void postorder(std::shared_ptr<Node> root, std::vector<T>& v) const;
@@ -101,7 +101,7 @@ template<typename T>
 BinarySearchTree<T>::BinarySearchTree(std::vector<T> v)
 	: _root(nullptr)
 {
-	for (auto i : v)
+	for (const auto& i : v)
 	{
 		insert(_root, i);
 	}
@@ -155,7 +155,7 @@ void BinarySearchTree<T>::serialize(std::ostream& out) const
 	// TODO const_reference here is not working in g++.
 	//for_each(v.begin(), v.end(), [&out](std::vector<T>::const_reference e){ out << e << " "; });
 
-	for (auto i : v)
+	for (const auto& i : v)
 	{
 		out << i << " ";
 	}
@@ -238,7 +238,7 @@ size_t BinarySearchTree<T>::width() const
 }
 
 template<typename T>
-void BinarySearchTree<T>::insert(std::shared_ptr<Node>& root, T data)
+void BinarySearchTree<T>::insert(std::shared_ptr<Node>& root, const T& data)
 {
 	if (!root)
 	{
