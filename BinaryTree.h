@@ -36,6 +36,9 @@ public:
 
 	void mirror();
 
+	// Lowest Common Ancestor
+	std::shared_ptr<Node<T>> lca(const T& data1, const T& data2) const;
+
 private:
 	void insert(const T& data);
 
@@ -52,6 +55,9 @@ private:
 	size_t width(std::shared_ptr<Node<T>> root) const;
 
 	void mirror(std::shared_ptr<Node<T>> root);
+
+	virtual std::shared_ptr<Node<T>> lca(std::shared_ptr<Node<T>> root, 
+											const T& data1, const T& data2) const;
 
 protected:
 	std::shared_ptr<Node<T>> _root;
@@ -146,6 +152,12 @@ template<typename T>
 void BinaryTree<T>::mirror()
 {
 	mirror(_root);
+}
+
+template<typename T>
+std::shared_ptr<Node<T>> BinaryTree<T>::lca(const T& data1, const T& data2) const
+{
+	return lca(_root, data1, data2);
 }
 
 /////////// Private Member Functions ///////////
@@ -345,8 +357,8 @@ void BinaryTree<T>::displayAllPaths(std::shared_ptr<Node<T>> root,
 	v.push_back(root->data);
 
 	// 3. generate result
-	// condition when to perform task can be different from
-	// termination condition.
+	// condition when to generate result can be
+	// different from termination condition.
 	if (!root->left && !root->right)
 	{
 		for (const auto& ele : v)
@@ -423,6 +435,31 @@ void BinaryTree<T>::mirror(std::shared_ptr<Node<T>> root)
 	// 3. recursion call
 	mirror(root->left);
 	mirror(root->right);
+}
+
+template<typename T>
+std::shared_ptr<Node<T>> BinaryTree<T>::lca(std::shared_ptr<Node<T>> root, 
+												const T& data1, const T& data2) const
+{
+	if (!root)
+	{
+		return nullptr;
+	}
+
+	if (root->data == data1 || root->data == data2)
+	{
+		return root;
+	}
+
+	std::shared_ptr<Node<T>> lca1 = lca(root->left, data1, data2);
+	std::shared_ptr<Node<T>> lca2 = lca(root->right, data1, data2);
+
+	if (lca1 && lca2)
+	{
+		return root;
+	}
+
+	return lca1 ? lca1 : lca2;
 }
 
 #endif

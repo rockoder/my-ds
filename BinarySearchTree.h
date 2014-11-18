@@ -38,6 +38,10 @@ private:
 	T min(std::shared_ptr<Node<T>> root) const;
 	T max(std::shared_ptr<Node<T>> root) const;
 
+	// BinarySearchTree override the lca logic.
+	virtual std::shared_ptr<Node<T>> lca(std::shared_ptr<Node<T>> root, 
+											const T& data1, const T& data2) const override;
+
 private:
 
 	// friends. good idea to list them at the start or end of the class. 
@@ -187,6 +191,31 @@ T BinarySearchTree<T>::max(std::shared_ptr<Node<T>> root) const
 	}
 
 	return root->data;
+}
+
+template<typename T>
+std::shared_ptr<Node<T>> BinarySearchTree<T>::lca(std::shared_ptr<Node<T>> root, 
+													const T& data1, const T& data2) const
+{
+	if (!root)
+	{
+		return nullptr;
+	}
+
+	// Note the return statement in each 'if'. We don't
+	// want to proceed further once we have the match.
+
+	if (root->data < data1 && root->data < data2)
+	{
+		return lca(root->right, data1, data2);
+	}
+
+	if (root->data > data1 && root->data > data2)
+	{
+		return lca(root->left, data1, data2);
+	}
+
+	return root;
 }
 
 #endif
