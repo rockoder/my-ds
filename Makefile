@@ -15,7 +15,7 @@ TDIR = test
 
 MKDIR_P = mkdir -p
 
-all: dir TestBT TestBST
+all: dir TestBT TestBST TestHashTable
 
 dir:
 	$(MKDIR_P) $(ODIR)
@@ -25,6 +25,9 @@ TestBT: $(SDIR)/BinaryTree.h
 
 TestBST: $(SDIR)/BinarySearchTree.h
 	g++ $(INCLUDES) $(TDIR)/TestMain.cpp $(LDIR) $(LIBS) $(CFLAGS) $(TDIR)/TestBST.cpp -o $(ODIR)/TestBST
+
+TestHashTable: $(SDIR)/HashTable.h
+	g++ $(INCLUDES) $(TDIR)/TestMain.cpp $(LDIR) $(LIBS) $(CFLAGS) $(TDIR)/TestHashTable.cpp -o $(ODIR)/TestHashTable
 
 clean:
 	rm -rf $(ODIR)/*	
