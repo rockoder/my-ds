@@ -4,6 +4,7 @@
 #include <initializer_list>
 #include <queue>
 #include <memory>
+#include <iostream>
 
 #include "Node.h"
 

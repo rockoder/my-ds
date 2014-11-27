@@ -8,7 +8,7 @@ struct Node
 	std::shared_ptr<Node> left;
 	std::shared_ptr<Node> right;
 	
-	Node(T d) 
+	Node(const T& d) 
 		: data(d), left(nullptr), right(nullptr)
 	{	}
 
