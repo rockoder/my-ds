@@ -13,7 +13,12 @@ LIBS = -lgtest -pthread
 ODIR = bin
 TDIR = test
 
-all: TestBT TestBST
+MKDIR_P = mkdir -p
+
+all: dir TestBT TestBST
+
+dir:
+	$(MKDIR_P) $(ODIR)
 
 TestBT: $(SDIR)/BinaryTree.h
 	g++ $(INCLUDES) $(TDIR)/TestMain.cpp $(LDIR) $(LIBS) $(CFLAGS) $(TDIR)/TestBT.cpp -o $(ODIR)/TestBT
