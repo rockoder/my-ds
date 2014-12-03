@@ -4,11 +4,12 @@
 #include <vector>
 #include <utility>	// std::pair
 #include <algorithm>
+#include <iostream>
 
 template<typename K>
 struct sampleHash
 {
-	int operator()(const K& key)
+	size_t operator()(const K& key)
 	{
 		return key;
 	}
@@ -27,8 +28,8 @@ public:
 	{
 		size_t hash = hashCode(key);
 		
-		auto it = std::find_if(table_[hash].begin(), table_[hash].end(), 
-						[&key](const std::pair<K, V>& p){ return p.first == key;});
+		auto it = std::find_if(table_[hash].cbegin(), table_[hash].cend(), 
+						[&key](decltype(*(table_[hash].cbegin())) ele){ return ele.first == key;});
 
 		return it->second; 	
 	}
@@ -39,10 +40,8 @@ public:
 
 		if (hash >= 0 and hash < table_.size())
 		{
-			// TODO: decltype(*(table_[hash].begin())) -- this should give
-			// constant reference.
 			auto it = std::find_if(table_[hash].begin(), table_[hash].end(), 
-						[&key](decltype(*(table_[hash].begin())) ele){ return ele.first == key;});
+						[&key](decltype(*(table_[hash].cbegin())) ele){ return ele.first == key; });
 
 			if (it == table_[hash].end())
 			{

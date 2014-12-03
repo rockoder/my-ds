@@ -8,10 +8,13 @@
 
 #include "BinaryTree.h"
 
+// Only those algorithms that are unique to BST
+// (and not to BT) will be implemented here.
+
 template<typename T>
 class BinarySearchTree : public BinaryTree<T>
 {
-	using BinaryTree<T>::_root;
+	using BinaryTree<T>::root_;
 
 public:
 	explicit BinarySearchTree() :
@@ -76,7 +79,7 @@ BinarySearchTree<T>::BinarySearchTree(std::vector<T> v)
 {
 	for (const auto& i : v)
 	{
-		insert(_root, i);
+		insert(root_, i);
 	}
 }
 
@@ -116,7 +119,7 @@ void BinarySearchTree<T>::deserialize(std::istream& preorderStream)
 		std::shared_ptr<Node<T>> root = std::shared_ptr<Node<T>>(std::make_shared<Node<T>>(preorderVector[0]));
 
 		s.push(root);
-		_root = root;
+		root_ = root;
 
 		for (size_t i = 1; i < preorderVector.size(); ++i)
 		{
@@ -145,13 +148,13 @@ void BinarySearchTree<T>::deserialize(std::istream& preorderStream)
 template<typename T>
 T BinarySearchTree<T>::min() const
 {
-	return min(_root);
+	return min(root_);
 }
 
 template<typename T>
 T BinarySearchTree<T>::max() const
 {
-	return max(_root);
+	return max(root_);
 }
 
 template<typename T>

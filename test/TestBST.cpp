@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "BinarySearchTree.h"
 #include "gtest/gtest.h"
 
@@ -22,4 +24,18 @@ TEST_F(TestBST, MethodWidth)
 TEST_F(TestBST, MethodLCA)
 {
 	EXPECT_EQ(15, t1.BinaryTree<int>::lca(15, 1)->data);
+}
+
+TEST_F(TestBST, MethodToList)
+{
+	BinarySearchTree<int> m1{ 50, 25, 15, 35, 1, 40, 80, 55, 95 };
+	//vector<int> v1 = 
+	m1.toList();
+
+	// m1.mirror();
+
+	// vector<int> v2 = m1.inorder();
+	// reverse(v2.begin(), v2.end());
+
+	// EXPECT_EQ(v1, v2);
 }

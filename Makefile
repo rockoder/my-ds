@@ -2,7 +2,7 @@
 
 GTEST_INSTALL_DIR=/home/rockoder/InstallConfig/gtest-1.7.0
 
-CFLAGS = -std=c++11
+CFLAGS = -std=c++11 -Wall
 
 INCLUDES = -I$(GTEST_INSTALL_DIR)/include -Iinclude
 
