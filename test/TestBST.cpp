@@ -12,6 +12,7 @@ protected:
 	BinarySearchTree<int> t1{ 50, 25, 15, 35, 1, 40, 80, 55, 95 };
 	BinarySearchTree<int> t2;
 	BinarySearchTree<int> t3 { 200 };
+	BinarySearchTree<int> t4 { 1, 2, 3, 4, 5, 6, 7, 8 };
 };
 
 TEST_F(TestBST, MethodWidth)
@@ -29,13 +30,10 @@ TEST_F(TestBST, MethodLCA)
 TEST_F(TestBST, MethodToList)
 {
 	BinarySearchTree<int> m1{ 50, 25, 15, 35, 1, 40, 80, 55, 95 };
-	//vector<int> v1 = 
 	m1.toList();
+}
 
-	// m1.mirror();
-
-	// vector<int> v2 = m1.inorder();
-	// reverse(v2.begin(), v2.end());
-
-	// EXPECT_EQ(v1, v2);
+TEST_F(TestBST, MethodIsBalanced)
+{
+	EXPECT_FALSE(t4.isBalanced());
 }

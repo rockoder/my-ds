@@ -35,9 +35,11 @@ public:
 	size_t height() const;
 	size_t width() const;
 	size_t leafCount() const;
+
 	bool isBST() const;
 	bool isSumProperty() const;
 	void toSumProperty();
+	bool isBalanced() const;
 
 	void mirror();
 
@@ -61,12 +63,15 @@ private:
 	size_t height(std::shared_ptr<Node<T>> root) const;
 	size_t width(std::shared_ptr<Node<T>> root) const;
 	size_t leafCount(std::shared_ptr<Node<T>> root) const;
+
 	bool isBST(std::shared_ptr<Node<T>> root, T min, T max) const;
 
 	bool isSumProperty(std::shared_ptr<Node<T>> root) const;
 
 	void increment(std::shared_ptr<Node<T>> root, const T& diff);
 	void toSumProperty(std::shared_ptr<Node<T>> root);
+
+	bool isBalanced(std::shared_ptr<Node<T>> root, size_t& height) const;
 
 	void mirror(std::shared_ptr<Node<T>> root);
 
@@ -236,6 +241,13 @@ template<typename T>
 void BinaryTree<T>::toSumProperty()
 {
 	toSumProperty(root_);
+}
+
+template<typename T>
+bool BinaryTree<T>::isBalanced() const
+{
+	size_t height;
+	return isBalanced(root_, height);
 }
 
 template<typename T>
@@ -626,6 +638,27 @@ void BinaryTree<T>::toSumProperty(std::shared_ptr<Node<T>> root)
 
 	if (diff > 0)
 		increment(root->left, diff);
+}
+
+template<typename T>
+bool BinaryTree<T>::isBalanced(std::shared_ptr<Node<T>> root, size_t& height) const
+{
+	if (!root)
+	{
+		height = 0;
+		return true;
+	}
+
+	size_t leftHeight;
+	size_t rightHeight;
+
+	bool isLeftBalanced = isBalanced(root->left, leftHeight);
+	bool isRightBalanced = isBalanced(root->right, rightHeight);
+
+	height = std::max(leftHeight, rightHeight) + 1;
+
+	return (std::abs(leftHeight - rightHeight) < 2) && 
+			isLeftBalanced && isRightBalanced;
 }
 
 template<typename T>

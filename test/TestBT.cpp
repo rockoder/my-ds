@@ -87,3 +87,9 @@ TEST_F(TestBT, MethodToSumProperty)
 	tree.displayLevelOrder();
 	EXPECT_TRUE(tree.isSumProperty());
 }
+
+TEST_F(TestBT, MethodIsBalanced)
+{
+	BinaryTree<int> tree { 50, 25, 15, 35, 1, 40, 80, 55, 95 };
+	EXPECT_TRUE(tree.isBalanced());
+}
