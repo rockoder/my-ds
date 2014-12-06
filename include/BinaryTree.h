@@ -22,6 +22,8 @@ public:
 	~BinaryTree() = default;
 
 	std::vector<T> inorder() const;
+	std::vector<T> inorderWithoutRecursion() const;
+	std::vector<T> inorderMorris() const;
 	std::vector<T> postorder() const;
 	std::vector<T> preorder() const;
 
@@ -103,6 +105,45 @@ std::vector<T> BinaryTree<T>::inorder() const
 	inorder(root_, v);
 
 	return v;
+}
+
+template<typename T>
+std::vector<T> BinaryTree<T>::inorderWithoutRecursion() const
+{
+	std::vector<T> v;
+	std::stack<std::shared_ptr<Node<T>>> s;
+	bool done = false;
+	std::shared_ptr<Node<T>> current = root_;
+
+	while (!done)
+	{
+		if (current)
+		{
+			s.push(current);
+			current = current->left;
+		}
+		else
+		{
+			if (s.empty())
+				done = true;
+			else
+			{
+				current = s.top();
+				s.pop();
+				v.push_back(current->data);
+
+				current = current->right;
+			}
+		}
+	}
+
+	return v;
+}
+
+template<typename T>
+std::vector<T> BinaryTree<T>::inorderMorris() const
+{
+
 }
 
 template<typename T>
@@ -273,11 +314,20 @@ void BinaryTree<T>::toList()
 		}
 		else
 		{
+			// Its a circular list. Need to stop after first scan.
 			if (start == head)
+			{
 				break;
+			}
 		}
+
 		std::cout << head->data << "\t";
-		head = head->right;
+
+		// Its a circular list. Classic case for shared_ptr to leak memory.
+		std::shared_ptr<Node<T>> temp = head->right;
+		head->left = nullptr;
+		head->right = nullptr;
+		head = temp;
 	}
 }
 
@@ -330,7 +380,6 @@ void BinaryTree<T>::insert(const T& data)
 		}
 	}
 }
-
 
 template<typename T>
 void BinaryTree<T>::inorder(std::shared_ptr<Node<T>> root, std::vector<T>& v) const

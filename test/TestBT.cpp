@@ -46,7 +46,7 @@ TEST_F(TestBT, MethodMirror)
 TEST_F(TestBT, MethodToList)
 {
 	BinaryTree<int> m1{ 50, 25, 15, 35, 1, 40, 80, 55, 95 };
-		m1.toList();
+	m1.toList();
 }
 
 TEST_F(TestBT, MethodLeafCount)
@@ -92,4 +92,13 @@ TEST_F(TestBT, MethodIsBalanced)
 {
 	BinaryTree<int> tree { 50, 25, 15, 35, 1, 40, 80, 55, 95 };
 	EXPECT_TRUE(tree.isBalanced());
+}
+
+TEST_F(TestBT, MethodInorderWithoutRecursion)
+{
+	BinaryTree<int> m1{ 50, 25, 15, 35, 1, 40, 80, 55, 95 };
+	vector<int> v1 = m1.inorder();
+	vector<int> v2 = m1.inorderWithoutRecursion();
+
+	EXPECT_EQ(v1, v2);
 }
