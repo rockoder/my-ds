@@ -19,11 +19,13 @@ public:
 
 	explicit BinaryTree(std::initializer_list<T> il);
 
+	BinaryTree(std::initializer_list<T> inList, std::initializer_list<T> preList);
+
 	~BinaryTree() = default;
 
 	std::vector<T> inorder() const;
 	std::vector<T> inorderWithoutRecursion() const;
-	std::vector<T> inorderMorris() const;
+	std::vector<T> inorderMorris();
 	std::vector<T> postorder() const;
 	std::vector<T> preorder() const;
 
@@ -52,6 +54,10 @@ public:
 
 private:
 	void insert(const T& data);
+
+	std::shared_ptr<Node<T>> createBT(typename std::initializer_list<T>::iterator inStart, 
+									typename std::initializer_list<T>::iterator inEnd, 
+									typename std::initializer_list<T>::iterator& preStart);
 
 	void inorder(std::shared_ptr<Node<T>> root, std::vector<T>& v) const;
 	void postorder(std::shared_ptr<Node<T>> root, std::vector<T>& v) const;
@@ -98,6 +104,36 @@ BinaryTree<T>::BinaryTree(std::initializer_list<T> il)
 }
 
 template<typename T>
+BinaryTree<T>::BinaryTree(std::initializer_list<T> inList, std::initializer_list<T> preList)
+{
+	typename std::initializer_list<T>::iterator preStart = preList.begin();
+	root_ = createBT(inList.begin(), inList.end(), preStart);
+}
+
+template<typename T>
+std::shared_ptr<Node<T>> BinaryTree<T>::createBT(typename std::initializer_list<T>::iterator inStart, 
+									typename std::initializer_list<T>::iterator inEnd, 
+									typename std::initializer_list<T>::iterator& preStart)
+{
+	// Nothing in the inorder list.
+	if (inStart == inEnd)
+		return nullptr;
+
+	std::shared_ptr<Node<T>> temp = std::make_shared<Node<T>>(*preStart++);
+
+	// Only 1 element in the inorder list. It does not have any child.
+	if (inStart + 1 == inEnd)
+		return temp;
+
+	auto it = std::find(inStart, inEnd, temp->data);
+
+	temp->left = createBT(inStart, it, preStart);
+	temp->right = createBT(it + 1, inEnd, preStart);
+
+	return temp;
+}
+
+template<typename T>
 std::vector<T> BinaryTree<T>::inorder() const
 {
 	std::vector<T> v;
@@ -141,9 +177,40 @@ std::vector<T> BinaryTree<T>::inorderWithoutRecursion() const
 }
 
 template<typename T>
-std::vector<T> BinaryTree<T>::inorderMorris() const
+std::vector<T> BinaryTree<T>::inorderMorris()
 {
+	std::vector<T> v;
+	std::shared_ptr<Node<T>> current = root_;
 
+	while (current)
+	{
+		if (!current->left)
+		{
+			v.push_back(current->data);
+			current = current->right;
+		}
+		else
+		{
+			std::shared_ptr<Node<T>> temp = current->left;
+
+			while (temp->right && temp->right != current)
+				temp = temp->right;
+
+			if (!temp->right)
+			{
+				temp->right = current;
+				current = current->left;
+			}
+			else
+			{
+				temp->right = nullptr;
+				v.push_back(current->data);
+				current = current->right;
+			}
+		}
+	}
+
+	return v;
 }
 
 template<typename T>

@@ -102,3 +102,26 @@ TEST_F(TestBT, MethodInorderWithoutRecursion)
 
 	EXPECT_EQ(v1, v2);
 }
+
+TEST_F(TestBT, MethodInorderMorris)
+{
+	BinaryTree<int> m1{ 50, 25, 15, 35, 1, 40, 80, 55, 95 };
+	vector<int> v1 = m1.inorder();
+	vector<int> v2 = m1.inorderMorris();
+
+	EXPECT_EQ(v1, v2);
+}
+
+TEST_F(TestBT, MethodCreateTree)
+{
+	std::initializer_list<int> in{ 55, 35, 95, 25, 1, 50, 40, 15, 80 };
+	std::initializer_list<int> pre{ 50, 25, 35, 55, 95, 1, 15, 40, 80 };
+
+	BinaryTree<int> m1(in, pre);
+	BinaryTree<int> m2 { 50, 25, 15, 35, 1, 40, 80, 55, 95 };
+
+	vector<int> v1 = m1.inorder();
+	vector<int> v2 = m2.inorder();
+
+	EXPECT_EQ(v1, v2);
+}
