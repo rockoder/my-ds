@@ -110,6 +110,9 @@ TEST_F(TestBT, MethodInorderMorris)
 	vector<int> v2 = m1.inorderMorris();
 
 	EXPECT_EQ(v1, v2);
+
+	BinaryTree<int> m2;
+	EXPECT_EQ(t2.inorder(), m2.inorderMorris());
 }
 
 TEST_F(TestBT, MethodCreateTree)
