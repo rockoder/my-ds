@@ -128,3 +128,11 @@ TEST_F(TestBT, MethodCreateTree)
 
 	EXPECT_EQ(v1, v2);
 }
+
+TEST_F(TestBT, MethodIsSubTree)
+{
+	BinaryTree<int> m1{ 25, 35, 1, 55, 95};
+
+	EXPECT_FALSE(t1.isSubTree(t3));
+	EXPECT_TRUE(t1.isSubTree(m1));
+}

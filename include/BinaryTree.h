@@ -52,6 +52,12 @@ public:
 	// Lowest Common Ancestor
 	std::shared_ptr<Node<T>> lca(const T& data1, const T& data2) const;
 
+	bool isSubTree(const BinaryTree<T>& sub);
+	bool isSubTree(const std::shared_ptr<Node<T>>& sub, const std::shared_ptr<Node<T>>& org);
+
+	// TODO: implement ==
+	bool identical(const std::shared_ptr<Node<T>>& sub, const std::shared_ptr<Node<T>>& org);
+
 private:
 	void insert(const T& data);
 
@@ -868,6 +874,44 @@ std::shared_ptr<Node<T>> BinaryTree<T>::lca(std::shared_ptr<Node<T>> root,
 	}
 
 	return lca1 ? lca1 : lca2;
+}
+
+template<typename T>
+bool BinaryTree<T>::isSubTree(const BinaryTree<T>& sub)
+{
+	return isSubTree(sub.root_, root_);
+}
+
+template<typename T>
+bool BinaryTree<T>::isSubTree(const std::shared_ptr<Node<T>>& sub, 
+								const std::shared_ptr<Node<T>>& org)
+{
+	if (!sub)
+		return true;
+
+	if (!org)
+		return false;
+
+	if (identical(sub, org))
+		return true;
+
+	return isSubTree(sub, org->left) ||
+			isSubTree(sub, org->right);
+}
+
+template<typename T>
+bool BinaryTree<T>::identical(const std::shared_ptr<Node<T>>& sub, 
+								const std::shared_ptr<Node<T>>& org)
+{
+	if (!sub && !org)
+		return true;
+
+	if (!sub || !org)
+		return false;
+
+	return sub->data == org->data &&
+			identical(sub->left, org->left) &&
+			identical(sub->right, org->right);
 }
 
 #endif
